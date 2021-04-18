@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello OpenCV.js</title>
+</head>
+<body>
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div>
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" />
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput" ></canvas>
+    <div class="caption">canvasOutput</div>
+  </div>
+</div>
+<script async type="text/javascript">
+
+function onOpenCvReady() {
+  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+  let imgElement = document.getElementById('imageSrc');
+let inputElement = document.getElementById('fileInput');
+inputElement.addEventListener('change', (e) => {
+  imgElement.src = URL.createObjectURL(e.target.files[0]);
+}, false);
+imgElement.onload = function() { // path to xml
+	let utils = new Utils('errorMessage'); 
+	let faceCascadeFile = 'haarcascade_frontalface_default.xml';
+	utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
+	let faceCascade = new cv.CascadeClassifier();
+    faceCascade.load(faceCascadeFile);
+	let mat = cv.imread(imgElement);
+	let gray = new cv.Mat();
+	cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+	let faces = new cv.RectVector();
+	
+	faceCascade.detectMultiScale(gray, faces, 1.1, 3, 0);
+	console.log(faces.size());
+	for (let i = 0; i < faces.size(); ++i) {
+			let roiGray = gray.roi(faces.get(i));
+			let roiSrc = mat.roi(faces.get(i));
+			let point1 = new cv.Point(faces.get(i).x, faces.get(i).y);
+			let point2 = new cv.Point(faces.get(i).x + faces.get(i).width,
+																faces.get(i).y + faces.get(i).height);
+			cv.rectangle(mat, point1, point2, [255, 0, 0, 255]);
+	}
+	cv.imshow('canvasOutput', mat);
+	});
+};
+}
+</script>
+<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+<script src="utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+#col-1 {
+  position: relative;
+  width: 50%;
+  display: flex;
+  float: left;
+  height: 100vh;
+  background-color: #282828;
+  z-index: 1010101010;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+a {
+  font-size: 100;
+}
+#col-2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100vh;
+  float: left;
+  align-items: center;
+  background-color: #0080ff;
+  justify-content: center;
+  z-index: 1010101010;
+  text-align: center;
+}
