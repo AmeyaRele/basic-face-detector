@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Hello OpenCV.js</title>
+<title>Face detection</title>
 </head>
 <body>
-<h2>Hello OpenCV.js</h2>
+<h2>Face detection from image</h2>
 <p id="status">OpenCV.js is loading...</p>
 <div>
   <div class="inputoutput">
@@ -26,7 +26,7 @@ let inputElement = document.getElementById('fileInput');
 inputElement.addEventListener('change', (e) => {
   imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
-imgElement.onload = function() { // path to xml
+imgElement.onload = function() {
 	let utils = new Utils('errorMessage'); 
 	let faceCascadeFile = 'haarcascade_frontalface_default.xml';
 	utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
